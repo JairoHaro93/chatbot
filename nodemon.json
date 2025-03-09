@@ -1,0 +1,14 @@
+{
+    "watch": ["app.js", "src/"], 
+    "ext": "js,json",
+    "ignore": [
+    "node_modules/", 
+    "bot_sessions/", 
+    "queue.class.log", 
+    "baileys.log", 
+    "core.class.log", 
+    "flujosBot/", 
+    "bot.qr.png"],
+    "delay": "2000",
+    "exec": "node app.js"
+  }
