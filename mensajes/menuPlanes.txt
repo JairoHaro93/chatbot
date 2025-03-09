@@ -1,0 +1,5 @@
+Selecciona una categoria
+
+1️⃣ Plan Básico - 10Mbps
+2️⃣ Plan Avanzado - 30Mbps
+3️⃣ Plan Premium - 100Mbps
