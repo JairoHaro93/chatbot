@@ -14,7 +14,7 @@ const handleClientQuery = async (cedula, sqlServerConnection, flowDynamic) => {
   } catch (error) {
     console.error("❌ Error en la consulta del cliente:", error.message);
     await flowDynamic(
-      "❌ Hubo un error al buscar la información. Inténtalo nuevamente más tarde."
+      "⚠️ Hubo un error al buscar la información. Inténtalo nuevamente más tarde."
     );
   }
 };
