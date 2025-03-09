@@ -4,7 +4,7 @@ const {
 } = require("../controllers/chatBot/clientController");
 
 const flowSoporte = addKeyword(EVENTS.ACTION).addAnswer(
-  "📌 Por favor, indícame el número de cédula del cliente sin guiones seguido de tu primer nombre y apellido. Ejemplo: `1001234567 Juan Pérez`",
+  "📌 Por favor, indícame el número de cédula del cliente sin guiones seguido de tu primer nombre y apellido. Ejemplo: `1001234567`",
   { capture: true },
   async (ctx, { flowDynamic }) => {
     console.log(`📩 Cédula recibida: ${ctx.body}`);
