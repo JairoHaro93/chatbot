@@ -19,12 +19,13 @@ const { handleClientQuery } = require("./src/controllers/clientController");
 const app = express();
 app.use(express.json());
 
-let globalCtx;
 let sqlServerConnection;
 
 // Cargar el menú desde un archivo
 const menuPath = path.join(__dirname, "mensajes", "menu.txt");
 const menu = fs.readFileSync(menuPath, "utf8");
+const menuPlanesPath = path.join(__dirname, "mensajes", "menuPlanes.txt");
+const menuPlanes = fs.readFileSync(menuPlanesPath, "utf8");
 
 // ✅ Verificar conexión a MySQL
 async function testDbConnection() {
@@ -66,6 +67,28 @@ const flowSoporte = addKeyword(EVENTS.ACTION).addAnswer(
   }
 );
 
+// Definir flujo de soporte
+const flowPlanes = addKeyword(EVENTS.ACTION)
+  .addAnswer("Por favor indicame que plan deseas")
+  .addAnswer(
+    menuPlanes,
+    { capture: true },
+    async (ctx, { gotoFlow, fallBack, flowDynamic }) => {
+      if (!["1", "2", "3"].includes(ctx.body)) {
+        return fallBack("Respuesta Incorrecta, intenta de nuevo");
+      }
+
+      switch (ctx.body) {
+        case "1":
+          return await flowDynamic("Opción 1 seleccionada");
+        case "2":
+          return await flowDynamic("Opción 2 seleccionada");
+        case "3":
+          return await flowDynamic("Opción 3 seleccionada");
+      }
+    }
+  );
+
 // Definir flujo principal
 const menuFlow = addKeyword(EVENTS.WELCOME)
   .addAnswer(
@@ -81,7 +104,7 @@ const menuFlow = addKeyword(EVENTS.WELCOME)
 
       switch (ctx.body) {
         case "1":
-          return await flowDynamic("Opción 1 seleccionada");
+          return gotoFlow(flowPlanes);
         case "2":
           return await flowDynamic("Opción 2 seleccionada");
         case "3":
@@ -93,7 +116,7 @@ const menuFlow = addKeyword(EVENTS.WELCOME)
 // Inicialización del bot
 const main = async () => {
   const adapterDB = new MockAdapter();
-  const adapterFlow = createFlow([menuFlow, flowSoporte]);
+  const adapterFlow = createFlow([menuFlow, flowSoporte, flowPlanes]);
   const adapterProvider = createProvider(BaileysProvider);
 
   createBot({
