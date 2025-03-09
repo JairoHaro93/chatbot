@@ -10,15 +10,13 @@ const {
 const QRPortalWeb = require("@bot-whatsapp/portal");
 const BaileysProvider = require("@bot-whatsapp/provider/baileys");
 const MockAdapter = require("@bot-whatsapp/database/mock");
-const { poolmysql, connectDB } = require("./db");
+const { poolmysql, connectDB } = require("./src/config/db");
 
 const flowSoporte = require("./src/flows/flowSoporte");
 const flowPlanes = require("./src/flows/flowPlanes");
 
 const app = express();
 app.use(express.json());
-
-global.sqlServerConnection; // Variable global para SQL Server
 
 // ✅ Verificar conexión a MySQL
 async function testDbConnection() {

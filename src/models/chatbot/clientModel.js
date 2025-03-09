@@ -1,8 +1,18 @@
-const getClientByCedula = async (cedula, sqlServerConnection) => {
-  try {
-    if (!sqlServerConnection) throw new Error("No hay conexión con SQL Server");
+const { connectDB } = require("../../config/db");
 
-    const result = await sqlServerConnection
+let pool;
+
+// Función para inicializar la conexión
+async function initDB() {
+  if (!pool) {
+    pool = await connectDB(); // Espera la conexión
+  }
+}
+
+const getClientByCedula = async (cedula) => {
+  await initDB(); // Asegurar que `pool` está inicializado antes de usarlo
+  try {
+    const result = await pool
       .request()
       .input("cedula", cedula)
       .query(

@@ -1,8 +1,8 @@
-const { getClientByCedula } = require("../models/clientModel");
+const { getClientByCedula } = require("../../models/chatbot/clientModel");
 
-const handleClientQuery = async (cedula, sqlServerConnection, flowDynamic) => {
+const handleClientQuery = async (cedula, flowDynamic) => {
   try {
-    const clientData = await getClientByCedula(cedula, sqlServerConnection);
+    const clientData = await getClientByCedula(cedula);
 
     if (clientData.length > 0) {
       await flowDynamic(
