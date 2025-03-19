@@ -42,10 +42,58 @@ const getClientByCedula = async (cedula) => {
             WHERE o.est_ser_int_id <> 10
               AND s.suc_nombre = 'LATACUNGA'
               AND c.cli_cedula = @cedula
+                 AND p.ani_mes_id = 86
             ORDER BY nombre_completo;`
       );
 
-    return result.recordset;
+    const rows = result.recordset;
+
+    // Estructurar la respuesta agrupando por cédula y nombre
+    const groupedData = rows.reduce((acc, row) => {
+      const {
+        cedula,
+        nombre_completo,
+        coordenadas,
+        ip,
+        direccion,
+        referencia,
+        orden_instalacion,
+        fecha_instalacion,
+        estado,
+        instalado_por,
+        plan_nombre,
+        telefonos,
+        precio,
+      } = row;
+
+      // Buscar si ya existe el cliente en el acumulador
+      let cliente = acc.find((c) => c.cedula === cedula);
+
+      if (!cliente) {
+        // Si no existe, se agrega con un array de servicios
+        cliente = { cedula, nombre_completo, servicios: [] };
+        acc.push(cliente);
+      }
+
+      // Agregar el servicio (incluyendo estado, instalado_por y el plan) al array del cliente
+      cliente.servicios.push({
+        coordenadas,
+        ip,
+        direccion,
+        referencia,
+        orden_instalacion,
+        fecha_instalacion,
+        estado,
+        instalado_por,
+        plan_nombre,
+        telefonos,
+        precio,
+      });
+
+      return acc;
+    }, []);
+
+    return groupedData;
   } catch (error) {
     console.error("❌ Error al buscar cliente en SQL Server:", error.message);
     throw error;

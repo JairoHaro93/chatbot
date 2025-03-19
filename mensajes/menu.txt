@@ -1,7 +1,7 @@
-Selecciona una categoria
+🤖 Selecciona una categoria 🔴
 
-1 Promociones y Servicios
+1️⃣ Promociones y Servicios
 
-2 Consulta la cobertura
+2️⃣  Consulta la cobertura
 
-3 Soporte Tecnico
+3️⃣  Soporte Tecnico

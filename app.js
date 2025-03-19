@@ -51,7 +51,7 @@ const menu = fs.readFileSync(menuPath, "utf8");
 // 📌 Definir flujo principal
 const menuFlow = addKeyword(EVENTS.WELCOME)
   .addAnswer(
-    "Hola Bienvenido a Redecom, internet Ultrarapido. Soy RedeBOT, tu asesor virtual. ¿En qué puedo ayudarte? Selecciona una opción del menú."
+    " Hola Bienvenido a Redecom, internet Ultrarapido. 🤖 Soy RedeBOT 🤖, tu asesor virtual. ¿En qué puedo ayudarte? Selecciona una opción del menú."
   )
   .addAnswer(
     menu,
