@@ -36,7 +36,11 @@ const flowSoporte = addKeyword(EVENTS.ACTION)
           )
           .join("\n");
 
-        state.update({ cedula, nombreCompleto, servicios: response.servicios });
+        await state.update({
+          cedula,
+          nombreCompleto,
+          servicios: response.servicios,
+        });
 
         await flowDynamic(
           `🤖 Cliente validado: ${nombreCompleto} ✅\nPor favor, elige la referencia del servicio sobre el que necesitas soporte:\n${options}`
@@ -63,7 +67,7 @@ const flowSoporte = addKeyword(EVENTS.ACTION)
       }
 
       const selectedService = servicios[selectedIndex];
-      state.update({ selectedService });
+      await state.update({ selectedService });
       console.log(selectedService.estado);
 
       if (selectedService.estado === "PENDIENTE") {
