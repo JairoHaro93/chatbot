@@ -71,12 +71,13 @@ const flowSoporte = addKeyword(EVENTS.ACTION)
       console.log(selectedService.estado);
 
       if (selectedService.estado === "PENDIENTE") {
-        return endFlow({
-          body: "🚨 Tu servicio ha sido suspendido por falta de pago. Por favor, regulariza tu situación para restablecer el servicio.",
-        });
+        await flowDynamic(
+          "🚨 Tu servicio ha sido suspendido por falta de pago. Por favor, regulariza tu situación para restablecer el servicio."
+        );
+        return endFlow(); // Asegura que el flujo se detiene aquí
       }
 
-      await flowDynamic(
+      return await flowDynamic(
         "🤖 Selecciona el motivo de tu solicitud:\n \n1️⃣ Sin Servicio de Internet\n \n2️⃣ Servicio Intermitente\n \n3️⃣ Cambio de Nombre y/o Contraseña",
         { capture: true }
       );
@@ -109,7 +110,7 @@ const flowSoporte = addKeyword(EVENTS.ACTION)
           );
           break;
         default:
-          return flowDynamic("⚠️ Opción no válida, intenta nuevamente.");
+          return await flowDynamic("⚠️ Opción no válida, intenta nuevamente.");
       }
 
       await flowDynamic(
